@@ -43,6 +43,25 @@ public extension Mesh {
     /// Polygons grouped by material
     var polygonsByMaterial: [Polygon.Material: [Polygon]] {
         var polygonsByMaterial = [Polygon.Material: [Polygon]]()
+        
+        if (polygons.isEmpty) {
+            return polygonsByMaterial
+        }
+        
+        // Do a quick check first to see if all of our polygons are of the same material
+        // to avoid lots and lots of array appending
+        let materials = polygons.filter { $0.material != nil }
+        if (materials.isEmpty) {
+            polygonsByMaterial[nil] = polygons
+            return polygonsByMaterial
+        } else {
+            let firstMaterial = materials.first!.material
+            if (polygons.allSatisfy({ $0.material == firstMaterial || $0.material == nil })) {
+                polygonsByMaterial[firstMaterial] = polygons
+                return polygonsByMaterial
+            }
+        }
+        
         for polygon in polygons {
             var array = polygonsByMaterial[polygon.material] ?? []
             array.append(polygon)
