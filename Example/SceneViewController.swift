@@ -26,9 +26,20 @@ class SceneViewController: UIViewController {
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 3)
 
         // create some geometry using Euclid
-        let cube = Mesh.cube(size: 0.8, material: UIColor.red)
-        let sphere = Mesh.sphere(slices: 40, material: UIColor.blue)
-        let mesh = cube.subtract(sphere)
+        let wall = Mesh.loadResource("01_bricks")
+        
+        let outline = [
+            Vector(0, 0, 0),
+            Vector(0, 1, 0),
+            Vector(1, 1, 0),
+            Vector(1, 0, 0)
+        ]
+        let outlinePath = Path(outline.map { PathPoint($0.position, isCurved: false) })
+        let outlineHole = Mesh.extrude(outlinePath.closed(), depth: 1.0, material: UIColor.red)
+        let holePosition = Vector(0, 0, 0)
+        let hole = outlineHole.translated(by: holePosition)
+        
+        let mesh = hole //cube.subtract(sphere)
 
         // create SCNNode
         let geometry = SCNGeometry(mesh) {

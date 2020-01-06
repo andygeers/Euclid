@@ -55,6 +55,7 @@
 		01BA297C2235E3590088D36B /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* CoreGraphics.swift */; };
 		01BA297D2235E3590088D36B /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* CoreGraphics.swift */; };
 		527940E923C31F0D00F1CDF4 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527940E623C31EB400F1CDF4 /* Assets.swift */; };
+		527940EB23C31FD900F1CDF4 /* 01_bricks.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 527940EA23C31FD900F1CDF4 /* 01_bricks.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,7 @@
 		01BA29792235E34C0088D36B /* CGPathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPathTests.swift; sourceTree = "<group>"; };
 		01BA297B2235E3580088D36B /* CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreGraphics.swift; sourceTree = "<group>"; };
 		527940E623C31EB400F1CDF4 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		527940EA23C31FD900F1CDF4 /* 01_bricks.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = 01_bricks.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +218,7 @@
 		016FABEB21C078E400AF60DC /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				527940EA23C31FD900F1CDF4 /* 01_bricks.usdz */,
 				016FABEC21C078E400AF60DC /* AppDelegate.swift */,
 				016FABF021C078E400AF60DC /* SceneViewController.swift */,
 				527940E623C31EB400F1CDF4 /* Assets.swift */,
@@ -390,6 +393,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				527940EB23C31FD900F1CDF4 /* 01_bricks.usdz in Resources */,
 				016FABF921C078E500AF60DC /* LaunchScreen.storyboard in Resources */,
 				016FABF621C078E500AF60DC /* Assets.xcassets in Resources */,
 				016FABF421C078E400AF60DC /* Main.storyboard in Resources */,
