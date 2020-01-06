@@ -43,6 +43,8 @@
 		01D96AB523D8E36A00D0D267 /* BoundsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D96AB423D8E36A00D0D267 /* BoundsTests.swift */; };
 		01E5F54923D59BF100717D58 /* BSP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E5F54823D59BF100717D58 /* BSP.swift */; };
 		01F2382023BF4160005EC9DB /* LineSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2381F23BF4160005EC9DB /* LineSegment.swift */; };
+		527940EE23CA52D600F1CDF4 /* 01_bricks.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 527940EC23CA52D600F1CDF4 /* 01_bricks.usdz */; };
+		527940EF23CA52D600F1CDF4 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527940ED23CA52D600F1CDF4 /* Assets.swift */; };
 		52A3852E238D6E5700BE8407 /* LineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A3852D238D6E5700BE8407 /* LineTests.swift */; };
 		52A663A123857D5300FACF9D /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A663A023857D5300FACF9D /* Line.swift */; };
 		52C844E223854CDF009C0A73 /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C844E023854C87009C0A73 /* VectorTests.swift */; };
@@ -106,6 +108,8 @@
 		01D96AB423D8E36A00D0D267 /* BoundsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundsTests.swift; sourceTree = "<group>"; };
 		01E5F54823D59BF100717D58 /* BSP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSP.swift; sourceTree = "<group>"; };
 		01F2381F23BF4160005EC9DB /* LineSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineSegment.swift; sourceTree = "<group>"; };
+		527940EC23CA52D600F1CDF4 /* 01_bricks.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = 01_bricks.usdz; sourceTree = "<group>"; };
+		527940ED23CA52D600F1CDF4 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		52A3852D238D6E5700BE8407 /* LineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTests.swift; sourceTree = "<group>"; };
 		52A663A023857D5300FACF9D /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		52C844E023854C87009C0A73 /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
@@ -219,6 +223,8 @@
 		016FABEB21C078E400AF60DC /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				527940EC23CA52D600F1CDF4 /* 01_bricks.usdz */,
+				527940ED23CA52D600F1CDF4 /* Assets.swift */,
 				016FABEC21C078E400AF60DC /* AppDelegate.swift */,
 				016FABF021C078E400AF60DC /* SceneViewController.swift */,
 				016FABF221C078E400AF60DC /* Main.storyboard */,
@@ -359,6 +365,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				527940EE23CA52D600F1CDF4 /* 01_bricks.usdz in Resources */,
 				016FABF921C078E500AF60DC /* LaunchScreen.storyboard in Resources */,
 				016FABF621C078E500AF60DC /* Assets.xcassets in Resources */,
 				016FABF421C078E400AF60DC /* Main.storyboard in Resources */,
@@ -440,6 +447,7 @@
 			files = (
 				016FABF121C078E400AF60DC /* SceneViewController.swift in Sources */,
 				016FABED21C078E400AF60DC /* AppDelegate.swift in Sources */,
+				527940EF23CA52D600F1CDF4 /* Assets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

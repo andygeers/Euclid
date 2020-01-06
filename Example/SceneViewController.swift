@@ -27,9 +27,17 @@ class SceneViewController: UIViewController {
 
         // create some geometry using Euclid
         let start = CFAbsoluteTimeGetCurrent()
-        let cube = Mesh.cube(size: 0.8, material: UIColor.red)
-        let sphere = Mesh.sphere(slices: 120, material: UIColor.blue)
-        let mesh = cube.subtract(sphere)
+        
+        var texture = Mesh(resourceName: "01_bricks")!.scaled(by: 0.01)
+        let textureBounds = texture.bounds
+        texture = texture.translated(by: -textureBounds.min)
+        
+        var wall = texture.translated(by: Vector(-0.50,0.00,0.40))
+        wall = wall.union(texture.translated(by: Vector(0.46,0.00,0.40)))
+        
+        let hole = createHole()
+        let mesh = wall.intersect(hole)
+            
         print("Time:", CFAbsoluteTimeGetCurrent() - start)
         print("Polys:", mesh.polygons.count)
 
@@ -49,6 +57,22 @@ class SceneViewController: UIViewController {
         scnView.allowsCameraControl = true
         scnView.showsStatistics = true
         scnView.backgroundColor = .white
+    }
+    
+    private func createHole() -> Mesh {
+        let points =
+            [
+                Vector( 0.4, 0.5,0.40),
+                Vector(-0.4, 0.5,0.40),
+                Vector(-0.4, 0.0,0.40),
+                Vector( 0.4, 0.0,0.40)
+            ]
+        
+        // Extrude that outline
+        let outlinePath = Path(points.map { PathPoint($0, isCurved: false) })
+        let mesh = Mesh.extrude(outlinePath.closed(), depth: 70.0, material: UIColor.blue)
+        
+        return mesh
     }
 
     override var shouldAutorotate: Bool {
