@@ -54,6 +54,7 @@
 		01BA297A2235E34C0088D36B /* CGPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA29792235E34C0088D36B /* CGPathTests.swift */; };
 		01BA297C2235E3590088D36B /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* CoreGraphics.swift */; };
 		01BA297D2235E3590088D36B /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA297B2235E3580088D36B /* CoreGraphics.swift */; };
+		527940E923C31F0D00F1CDF4 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527940E623C31EB400F1CDF4 /* Assets.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,7 @@
 		01BA29702235A63F0088D36B /* CoreText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreText.swift; sourceTree = "<group>"; };
 		01BA29792235E34C0088D36B /* CGPathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPathTests.swift; sourceTree = "<group>"; };
 		01BA297B2235E3580088D36B /* CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreGraphics.swift; sourceTree = "<group>"; };
+		527940E623C31EB400F1CDF4 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +218,7 @@
 			children = (
 				016FABEC21C078E400AF60DC /* AppDelegate.swift */,
 				016FABF021C078E400AF60DC /* SceneViewController.swift */,
+				527940E623C31EB400F1CDF4 /* Assets.swift */,
 				016FABF221C078E400AF60DC /* Main.storyboard */,
 				016FABF521C078E500AF60DC /* Assets.xcassets */,
 				016FABF721C078E500AF60DC /* LaunchScreen.storyboard */,
@@ -461,6 +464,7 @@
 			files = (
 				016FABF121C078E400AF60DC /* SceneViewController.swift in Sources */,
 				016FABED21C078E400AF60DC /* AppDelegate.swift in Sources */,
+				527940E923C31F0D00F1CDF4 /* Assets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
