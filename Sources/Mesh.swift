@@ -123,6 +123,10 @@ public extension Mesh {
     internal var hasBSP : Bool {
         return storage.bspCache != nil
     }
+    
+    func precache() {
+        _ = bsp
+    }
 }
 
 internal extension Mesh {
