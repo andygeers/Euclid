@@ -30,6 +30,43 @@ struct BSP {
     }
 }
 
+internal extension BSP {
+    private init(root: BSPNode) {
+        self.root = root
+    }
+    
+    func duplicate() -> BSP {
+        return self
+    }
+    
+    mutating func merge(_ bsp: BSP) {
+        guard root != nil else {
+            self.root = bsp.duplicate().root
+            return
+        }
+        
+        var stack : [BSPNode] = [self.root!]
+        while !stack.isEmpty {
+            let node = stack.popLast()!
+            if (node !== root) {
+                root!.merge(node)
+            }
+            if node.front != nil {
+                stack.append(node.front!)
+            }
+            if node.back != nil {
+                stack.append(node.back!)
+            }
+        }
+    }
+    
+    func translated(by translation: Vector) -> BSP {
+        guard root != nil else { return self }
+                
+        return BSP(root: root!.translated(by: translation))
+    }
+}
+
 private struct DeterministicRNG: RandomNumberGenerator {
     private let modulus = 233_280
     private let multiplier = 9301
@@ -45,8 +82,8 @@ private struct DeterministicRNG: RandomNumberGenerator {
 
 private class BSPNode {
     private weak var parent: BSPNode?
-    private var front: BSPNode?
-    private var back: BSPNode?
+    fileprivate var front: BSPNode?
+    fileprivate var back: BSPNode?
     private var polygons = [Polygon]()
     private let plane: Plane
 
@@ -95,6 +132,22 @@ private class BSPNode {
     private init(plane: Plane, parent: BSPNode?) {
         self.parent = parent
         self.plane = plane
+    }
+    
+    func translated(by translation: Vector, parent: BSPNode? = nil) -> BSPNode {
+        let translated = BSPNode(plane: self.plane.translated(by: translation), parent: parent)
+        translated.polygons.append(contentsOf: polygons.map { $0.translated(by: translation) })
+        if (front != nil) {
+            translated.front = front!.translated(by: translation, parent: translated)
+        }
+        if (back != nil) {
+            translated.back = back!.translated(by: translation, parent: translated)
+        }
+        return translated
+    }
+    
+    func merge(_ node: BSPNode) {
+        insert(node.polygons)
     }
 
     public func clip(
