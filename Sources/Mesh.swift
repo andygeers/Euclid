@@ -85,9 +85,9 @@ public extension Mesh {
             isConvex: false
         )
         if (storage.bspCache != nil) {
-            storage.bspCache!.merge(mesh.bsp)
-            merged.storage.bspCache = storage.bspCache
-            storage.bspCache = nil
+            merged.storage.bspCache = storage.bspCache!.merged(with: mesh.bsp)
+        } else if ((polygons.isEmpty) && (mesh.storage.bspCache != nil)) {
+            merged.storage.bspCache = mesh.storage.bspCache!.duplicate()
         }
         return merged
     }

@@ -7,7 +7,7 @@
 //
 
 struct BSP {
-    private let root: BSPNode?
+    private var root: BSPNode?
 
     enum ClipRule {
         case greaterThan
@@ -36,28 +36,69 @@ internal extension BSP {
     }
     
     func duplicate() -> BSP {
-        return self
+        return self.translated(by: Vector.zero)
     }
     
-    mutating func merge(_ bsp: BSP) {
-        guard root != nil else {
-            self.root = bsp.duplicate().root
-            return
+    fileprivate struct BSPIterator: Sequence, IteratorProtocol {
+        var stack: [BSPNode] = []
+        var currentNode: BSPNode?
+        var polygonIndex = 0
+        
+        init(node: BSPNode?) {
+            currentNode = node
+            pushChildren()
         }
         
-        var stack : [BSPNode] = [self.root!]
-        while !stack.isEmpty {
-            let node = stack.popLast()!
-            if (node !== root) {
-                root!.merge(node)
-            }
-            if node.front != nil {
+        mutating func pushChildren() {
+            guard let node = currentNode else { return }
+            
+            if (node.front != nil) {
                 stack.append(node.front!)
             }
-            if node.back != nil {
+            if (node.back != nil) {
                 stack.append(node.back!)
             }
         }
+        
+        mutating func next() -> Polygon? {
+            guard let node = currentNode else { return nil }
+            
+            while (polygonIndex >= node.polygons.count) {
+                if (stack.isEmpty) {
+                    return nil
+                } else {
+                    currentNode = stack.popLast()!
+                    polygonIndex = 0
+                    pushChildren()
+                }
+            }
+            
+            let polygon = node.polygons[polygonIndex]
+            polygonIndex += 1
+            return polygon
+        }
+        
+        func makeIterator() -> BSPIterator {
+            return self
+        }
+    }
+    
+    fileprivate var polygons: BSPIterator {
+        return BSPIterator(node: root)
+    }
+    
+    func merged(with bsp: BSP) -> BSP {
+        guard root != nil else {
+            return bsp.duplicate()
+        }
+        
+        let result = self.duplicate()
+        
+        //for polygon in bsp.polygons {
+            result.root!.insert(Array(bsp.polygons))
+        //}
+        
+        return result
     }
     
     func translated(by translation: Vector) -> BSP {
@@ -96,7 +137,7 @@ private class BSPNode {
     private weak var parent: BSPNode?
     fileprivate var front: BSPNode?
     fileprivate var back: BSPNode?
-    private var polygons = [Polygon]()
+    fileprivate var polygons = [Polygon]()
     private let plane: Plane
 
     public init?(_ polygons: [Polygon], isConvex: Bool) {
@@ -180,11 +221,7 @@ private class BSPNode {
             rotated.back = back!.rotated(by: m, parent: rotated)
         }
         return rotated
-    }
-    
-    func merge(_ node: BSPNode) {
-        insert(node.polygons)
-    }
+    }        
 
     public func clip(
         _ polygons: [Polygon],
@@ -250,7 +287,7 @@ private class BSPNode {
         return total
     }
 
-    private func insert(_ polygons: [Polygon]) {
+    fileprivate func insert(_ polygons: [Polygon]) {
         var polygons = polygons
         var node = self
         while !polygons.isEmpty {
