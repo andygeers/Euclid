@@ -80,11 +80,15 @@ public extension Transform {
 
 public extension Mesh {
     func translated(by v: Vector) -> Mesh {
-        return Mesh(
+        var translated = Mesh(
             unchecked: polygons.translated(by: v),
             bounds: boundsIfSet?.translated(by: v),
             isConvex: isConvex
         )
+        if (hasBSP) {
+            translated.bsp = bsp.translated(by: v)
+        }
+        return translated
     }
 
     func rotated(by m: Rotation) -> Mesh {

@@ -61,8 +61,8 @@ public extension Mesh {
         var aout: [Polygon]? = []
         var bout: [Polygon]? = []
         boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
-        ap = BSP(mesh).clip(ap, .greaterThan)
-        bp = BSP(self).clip(bp, .greaterThanEqual)
+        ap = mesh.bsp.clip(ap, .greaterThan)
+        bp = self.bsp.clip(bp, .greaterThanEqual)
         return Mesh(
             unchecked: aout! + bout! + ap + bp,
             bounds: bounds.union(mesh.bounds),
@@ -96,8 +96,8 @@ public extension Mesh {
         var aout: [Polygon]? = []
         var bout: [Polygon]?
         boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
-        ap = BSP(mesh).clip(ap, .greaterThan)
-        bp = BSP(self).clip(bp, .lessThan)
+        ap = mesh.bsp.clip(ap, .greaterThan)
+        bp = self.bsp.clip(bp, .lessThan)
         return Mesh(
             unchecked: aout! + ap + bp.map { $0.inverted() },
             isConvex: false
@@ -130,8 +130,8 @@ public extension Mesh {
         var aout: [Polygon]? = []
         var bout: [Polygon]? = []
         boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
-        let absp = BSP(self)
-        let bbsp = BSP(mesh)
+        let absp = self.bsp
+        let bbsp = mesh.bsp
         // TODO: combine clip operations
         let ap1 = bbsp.clip(ap, .greaterThan)
         let bp1 = absp.clip(bp, .lessThan)
@@ -169,8 +169,8 @@ public extension Mesh {
         var bp = mesh.polygons
         var aout, bout: [Polygon]?
         boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
-        ap = BSP(mesh).clip(ap, .lessThan)
-        bp = BSP(self).clip(bp, .lessThanEqual)
+        ap = mesh.bsp.clip(ap, .lessThan)
+        bp = self.bsp.clip(bp, .lessThanEqual)
         return Mesh(unchecked: ap + bp, isConvex: isConvex && mesh.isConvex)
     }
 
@@ -201,7 +201,7 @@ public extension Mesh {
         var bout: [Polygon]?
         boundsTest(bounds.intersection(mesh.bounds), &ap, &bp, &aout, &bout)
         // TODO: combine clip operations
-        let bsp = BSP(mesh)
+        let bsp = mesh.bsp
         let outside = bsp.clip(ap, .greaterThan)
         let inside = bsp.clip(ap, .lessThanEqual)
         return Mesh(
@@ -301,7 +301,7 @@ public extension Mesh {
             .translated(by: plane.normal * plane.w)
             // Clip rect
             return Mesh(
-                unchecked: mesh.polygons + BSP(self).clip([rect], .lessThan),
+                unchecked: mesh.polygons + self.bsp.clip([rect], .lessThan),
                 isConvex: isConvex
             )
         }

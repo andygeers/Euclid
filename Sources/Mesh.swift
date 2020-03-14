@@ -79,11 +79,17 @@ public extension Mesh {
         if let ab = boundsIfSet, let bb = mesh.boundsIfSet {
             bounds = ab.union(bb)
         }
-        return Mesh(
+        let merged = Mesh(
             unchecked: polygons + mesh.polygons,
             bounds: bounds,
             isConvex: false
         )
+        if (storage.bspCache != nil) {
+            storage.bspCache!.merge(mesh.bsp)
+            merged.storage.bspCache = storage.bspCache
+            storage.bspCache = nil
+        }
+        return merged
     }
 
     /// Flips face direction of polygons.
@@ -99,6 +105,23 @@ public extension Mesh {
     /// Tessellate polygons into triangles.
     func triangulate() -> Mesh {
         return Mesh(unchecked: polygons.triangulate(), isConvex: isConvex)
+    }
+    
+    internal var bsp : BSP {
+        get {
+            if (storage.bspCache == nil) {
+                storage.bspCache = BSP(self)
+            }
+            return storage.bspCache!
+        }
+        
+        set {
+            storage.bspCache = newValue
+        }
+    }
+    
+    internal var hasBSP : Bool {
+        return storage.bspCache != nil
     }
 }
 
@@ -117,6 +140,7 @@ private extension Mesh {
         let polygons: [Polygon]
         var boundsIfSet: Bounds?
         let isConvex: Bool
+        internal var bspCache: BSP?
 
         var bounds: Bounds {
             if boundsIfSet == nil {
