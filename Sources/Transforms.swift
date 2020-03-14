@@ -86,33 +86,47 @@ public extension Mesh {
             isConvex: isConvex
         )
         if (hasBSP) {
-            translated.bsp = bsp.translated(by: v)
+            translated.bsp = bsp.translated(by: v)            
         }
         return translated
     }
 
     func rotated(by m: Rotation) -> Mesh {
-        return Mesh(unchecked: polygons.rotated(by: m), isConvex: isConvex)
+        var rotated = Mesh(unchecked: polygons.rotated(by: m), isConvex: isConvex)
+        if (hasBSP) {
+            rotated.bsp = bsp.rotated(by: m)
+        }
+        return rotated
     }
 
     func scaled(by v: Vector) -> Mesh {
+        var scaled : Mesh
         if v.x == v.y, v.y == v.z {
             // optimization - avoids scaling normals
-            return scaled(by: v.x)
+            scaled = self.scaled(by: v.x)
+        } else {
+            scaled = Mesh(
+                unchecked: polygons.scaled(by: v),
+                bounds: boundsIfSet?.scaled(by: v),
+                isConvex: isConvex // TODO: what if v has negative components?
+            )
         }
-        return Mesh(
-            unchecked: polygons.scaled(by: v),
-            bounds: boundsIfSet?.scaled(by: v),
-            isConvex: isConvex // TODO: what if v has negative components?
-        )
+        if (hasBSP) {
+            scaled.bsp = bsp.scaled(by: v)
+        }
+        return scaled
     }
 
     func scaled(by f: Double) -> Mesh {
-        return Mesh(
+        var scaled = Mesh(
             unchecked: polygons.scaled(by: f),
             bounds: boundsIfSet?.scaled(by: f),
             isConvex: isConvex && f > 0
         )
+        if (hasBSP) {
+            scaled.bsp = bsp.scaled(by: Vector(f, f, f))
+        }
+        return scaled
     }
 
     func scaleCorrected(for v: Vector) -> Mesh {

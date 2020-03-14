@@ -65,6 +65,18 @@ internal extension BSP {
                 
         return BSP(root: root!.translated(by: translation))
     }
+    
+    func scaled(by v: Vector) -> BSP {
+        guard root != nil else { return self }
+                
+        return BSP(root: root!.scaled(by: v))
+    }
+    
+    func rotated(by m: Rotation) -> BSP {
+        guard root != nil else { return self }
+                
+        return BSP(root: root!.rotated(by: m))
+    }
 }
 
 private struct DeterministicRNG: RandomNumberGenerator {
@@ -144,6 +156,30 @@ private class BSPNode {
             translated.back = back!.translated(by: translation, parent: translated)
         }
         return translated
+    }
+    
+    func scaled(by v: Vector, parent: BSPNode? = nil) -> BSPNode {
+        let scaled = BSPNode(plane: self.plane.scaled(by: v), parent: parent)
+        scaled.polygons.append(contentsOf: polygons.map { $0.scaled(by: v) })
+        if (front != nil) {
+            scaled.front = front!.scaled(by: v, parent: scaled)
+        }
+        if (back != nil) {
+            scaled.back = back!.scaled(by: v, parent: scaled)
+        }
+        return scaled
+    }
+    
+    func rotated(by m: Rotation, parent: BSPNode? = nil) -> BSPNode {
+        let rotated = BSPNode(plane: self.plane.rotated(by: m), parent: parent)
+        rotated.polygons.append(contentsOf: polygons.map { $0.rotated(by: m) })
+        if (front != nil) {
+            rotated.front = front!.rotated(by: m, parent: rotated)
+        }
+        if (back != nil) {
+            rotated.back = back!.rotated(by: m, parent: rotated)
+        }
+        return rotated
     }
     
     func merge(_ node: BSPNode) {
