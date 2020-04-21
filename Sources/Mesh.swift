@@ -85,6 +85,25 @@ public extension Mesh {
             isConvex: false
         )
         if (storage.bspCache != nil) {
+            
+            if let ab = boundsIfSet, let bb = mesh.boundsIfSet {
+                if (bb.min.x >= ab.max.x) {
+                    // Create a BSP using YZ plane between them
+                    NSLog("Merging BSPs with YZ plane")
+                    
+                    return merged
+                } else if (bb.min.y >= ab.max.y) {
+                    // Create a BSP using XZ plane between them
+                    NSLog("Merging BSPs with XZ plane")
+                    return merged
+                } else if (bb.min.z >= ab.max.z) {
+                    // Create a BSP using XY plane between them
+                    NSLog("Merging BSPs with XY plane")
+                    return merged
+                }
+            }
+            
+            // Otherwise just manually merge
             merged.storage.bspCache = storage.bspCache!.merged(with: mesh.bsp)
         } else if ((polygons.isEmpty) && (mesh.storage.bspCache != nil)) {
             merged.storage.bspCache = mesh.storage.bspCache!.duplicate()
